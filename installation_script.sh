@@ -16,7 +16,13 @@ gpg --full-generate-key --pinentry loopback # Do NOT set a passphrase
 gpg --armor --output pubkey.gpg --export $EMAIL
 gpg --armor --output privkey.gpg --export-secret-key $EMAIL
 mkdir /etc/duplicity-unattended
+cp config.yaml /etc/duplicity-unattended/x
 cp duplicity-unattended /usr/bin/
 chmod +x /usr/bin/duplicity-unattended
-cp config.yaml /etc/duplicity-unattended/
 duplicity-unattended --config /etc/duplicity-unattended/config.yaml --dry-run
+cp systemd/duplicity-unattended.service /etc/systemd/system
+cp systemd/duplicity-unattended.timer /etc/systemd/system
+systemctl daemon-reload
+systemctl enable duplicity-unattended.timer
+systemctl start duplicity-unattended.timer
+systemctl start duplicity-unattended.service
