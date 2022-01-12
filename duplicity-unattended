@@ -44,7 +44,6 @@ def main():
 
     # Set up environment.
     env = {'PASSPHRASE': ''}  # For unattended backups, there's no point to a passphrase. Just protect the key.
-    # Point boto to a config file if one was given. Otherwise, rely on its default credentials resolution behavior.
     if AWS_ACCESS_KEY_ID in config:
         env.update({'AWS_ACCESS_KEY_ID': config[AWS_ACCESS_KEY_ID]})
     if AWS_SECRET_ACCESS_KEY in config:
@@ -57,8 +56,8 @@ def main():
         '--full-if-older-than', config[FULL_IF_OLDER_THAN_KEY],
         '--encrypt-sign-key', config[GPG_KEY_ID_KEY],
         '--s3-use-new-style',
-        '--s3-use-ia',
-        '--s3-use-multiprocessing',
+        # '--s3-use-ia',
+        # '--s3-use-multiprocessing',
     ]
     if args.dry_run:
         backup_base_cmd.append('--dry-run')
